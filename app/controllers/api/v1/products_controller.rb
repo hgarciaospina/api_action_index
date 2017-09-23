@@ -8,11 +8,28 @@ class Api::V1::ProductsController < ApplicationController
   def create
      product = Product.new(product_params)
      if product.save
-       render json: product, status: 201  
+      render json: product, status: 201
      else
-       render json: { errors: product.errors }, status: 422
+      render json: { errors: product.errors }, status: 422
      end
-   end
+  end
+
+  def update
+    product = Product.find(params[:id])
+    if product.update(product_params)
+     render json: product
+    else
+     render json: { errors: product.errors }, status: 422
+    end
+ end
+
+ def destroy
+   product = Product.find(params[:id])
+   product.destroy
+
+   head :no_content
+ end
+
 
 private
  # Use callbacks to share common setup or constraints between actions.
